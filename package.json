@@ -28,9 +28,14 @@
   "contributes": {
     "themes": [
       {
-        "label": "PK Dracula 1",
+        "label": "PK Dracula IntelliJ",
         "uiTheme": "vs-dark",
-        "path": "./themes/pk-dracula-1.json"
+        "path": "./themes/pk-dracula-intellij.json"
+      },
+      {
+        "label": "PK Dracula Modern",
+        "uiTheme": "vs-dark",
+        "path": "./themes/pk-dracula-modern.json"
       }
     ],
     "snippets": [
