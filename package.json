@@ -39,6 +39,42 @@
         "path": "./snippets/pk-snippets.code-snippets"
       }
     ],
+    "configurationDefaults": {
+      "editor.wordWrap": "on",
+      "editor.renderWhitespace": "none",
+      "editor.suggestSelection": "first",
+      "editor.fontFamily": "'Source Code Pro', Consolas, 'Courier New', monospace",
+      "editor.minimap.renderCharacters": false,
+      "editor.bracketPairColorization.enabled": false,
+      "workbench.editor.pinnedTabsOnSeparateRow": true,
+      "workbench.tree.indent": 15,
+      "workbench.statusBar.visible": true,
+      "workbench.editor.wrapTabs": true,
+      "explorer.compactFolders": false,
+      "explorer.confirmDelete": false,
+      "breadcrumbs.enabled": false,
+      "js/ts.implicitProjectConfig.experimentalDecorators": true,
+      "javascript.updateImportsOnFileMove.enabled": "always",
+      "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "typescript": "typescriptreact"
+      },
+      "git.autofetch": true,
+      "git.confirmSync": false,
+      "git.blame.editorDecoration.enabled": false,
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "prettier.documentSelectors": [
+        "**/*.{js,jsx,ts,tsx,css,scss,sass,html,json,md,toml,yaml,yml}"
+      ],
+      "editor.formatOnPaste": true,
+      "editor.formatOnSave": true,
+      "editor.tabSize": 2,
+      "python.analysis.typeCheckingMode": "standard",
+      "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.tabSize": 4
+      }
+    },
     "keybindings": [
       {
         "key": "enter",
