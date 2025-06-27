@@ -1,0 +1,48 @@
+{
+  // Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  //
+  // *************** JavaScript *******************
+  "Arrow function": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact, svelte",
+    "prefix": "ar",
+    "body": "($1) => {$2}",
+    "description": "Arrow function"
+  },
+  "Async Arrow function": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact, svelte",
+    "prefix": "aar",
+    "body": "async ($1) => {$2}",
+    "description": "Async arrow function"
+  },
+  "Self Closing Tag": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact, svelte, vue, vue-html",
+    "prefix": "se",
+    "body": "<$1 />",
+    "description": "React Self Closing Tag"
+  },
+  "ClassName": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "cn",
+    "body": "className=\"$1\"",
+    "description": "React className prop"
+  },
+  "ClassName with curly braces": {
+    "scope": "javascript, javascriptreact, typescript, typescriptreact",
+    "prefix": "cnc",
+    "body": "className={$1}",
+    "description": "React className prop with curly braces"
+  },
+  //
+  // *************** HTML *******************
+  "Angular/Vue Template Property": {
+    "scope": "html, vue, vue-html",
+    "prefix": "pr",
+    "body": "{{ ${1} }}",
+    "description": "Angular/Vue Template Property"
+  }
+}
