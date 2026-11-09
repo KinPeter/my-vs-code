@@ -1,0 +1,36 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "ctrl+d",
+    "mac": "cmd+d",
+    "command": "editor.action.copyLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly && !editorHasSelection",
+    "intellij": "Duplicate Line"
+  },
+  {
+    "key": "ctrl+d",
+    "mac": "cmd+d",
+    "command": "editor.action.duplicateSelection",
+    "when": "editorTextFocus && !editorReadonly && editorHasSelection",
+    "intellij": "Duplicate Selection"
+  },
+  {
+    "key": "ctrl ctrl",
+    "mac": "ctrl ctrl",
+    "command": "workbench.action.showCommands",
+    "intellij": "Find Action"
+  },
+  {
+    "key": "shift shift",
+    "mac": "shift shift",
+    "command": "workbench.action.quickOpen",
+    "intellij": "Search everywhere"
+  },
+  {
+    "key": "ctrl+r",
+    "mac": "cmd+r",
+    "command": "editor.action.startFindReplaceAction",
+    "when": "editorFocus || editorIsOpen",
+    "intellij": "Replace"
+  }
+]

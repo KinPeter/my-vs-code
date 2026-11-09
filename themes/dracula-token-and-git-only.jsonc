@@ -1,0 +1,416 @@
+{
+  // ---------------------------------------------------------------------------
+  // IntelliJ "Dracula" syntax palette, reworked as VS Code SETTINGS (not a
+  // theme file). Paste the three top-level keys into your settings.json.
+  //
+  //   workbench.colorCustomizations        -> UI colors (here: only git badges)
+  //   editor.tokenColorCustomizations      -> TextMate token colors
+  //   editor.semanticTokenColorCustomizations -> semantic tokens (TS/JS/Java...)
+  //
+  // Rules are ordered general -> specific: VS Code picks the MOST SPECIFIC
+  // scope match per property, and ties are broken by the later rule.
+  //
+  // Scope names come from the TextMate grammars VS Code ships, so they are
+  // language-specific by suffix (js, ts, python, css, ...). There is no
+  // "[languageId]" wrapper for token colors - that only works for normal
+  // editor settings.
+  // ---------------------------------------------------------------------------
+
+  // 1. Git file decorations (the only UI colors kept)
+  "workbench.colorCustomizations": {
+    "gitDecoration.modifiedResourceForeground": "#6897BB",
+    "gitDecoration.addedResourceForeground": "#629755",
+    "gitDecoration.untrackedResourceForeground": "#D98782",
+    "gitDecoration.ignoredResourceForeground": "#BC8A63",
+    "gitDecoration.deletedResourceForeground": "#CC7832",
+    "gitDecoration.conflictingResourceForeground": "#FFC66D",
+    "gitDecoration.stageModifiedResourceForeground": "#287BDE",
+    "gitDecoration.stageDeletedResourceForeground": "#287BDE"
+  },
+
+  // 2. Syntax / token colors
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      // ---- general groups (IntelliJ Darcula base) ----
+      { "scope": "comment", "settings": { "foreground": "#808080" } },
+      { "scope": "string", "settings": { "foreground": "#6A8759" } },
+      { "scope": "keyword - keyword.operator", "settings": { "foreground": "#CC7832", "fontStyle": "bold" } },
+      { "scope": "storage", "settings": { "foreground": "#CC7832" } }, // the old theme said "red", VS Code only accepts hex
+      { "scope": "variable", "settings": { "foreground": "#9876AA" } },
+      { "scope": "constant.language", "settings": { "foreground": "#CC7832", "fontStyle": "bold" } },
+
+      // ---- comments ----
+      { "scope": "punctuation.definition.comment", "settings": { "foreground": "#808080" } },
+
+      // ---- strings ----
+      { "scope": ["string.tag", "string.value", "string.regexp"], "settings": { "foreground": "#6A8759" } },
+      {
+        "name": "JS/TS template interpolation ${}",
+        "scope": [
+          "punctuation.definition.template-expression.begin",
+          "punctuation.definition.template-expression.end"
+        ],
+        "settings": { "foreground": "#A9B7C6" }
+      },
+
+      // ---- numbers / constants ----
+      { "scope": "constant.numeric", "settings": { "foreground": "#6897BB" } },
+      { "scope": "constant.regexp", "settings": { "foreground": "#646695" } },
+
+      // ---- keywords ----
+      { "scope": "keyword.control", "settings": { "foreground": "#CC7832", "fontStyle": "bold" } },
+      { "scope": "storage.type", "settings": { "foreground": "#CC7832", "fontStyle": "bold" } },
+      { "scope": "storage.modifier", "settings": { "foreground": "#CC7832", "fontStyle": "bold" } },
+      { "scope": "keyword.operator", "settings": { "foreground": "#A9B7C6" } },
+      {
+        "scope": [
+          "keyword.operator.new",
+          "keyword.operator.expression",
+          "keyword.operator.cast",
+          "keyword.operator.sizeof",
+          "keyword.operator.logical.python"
+        ],
+        "settings": { "foreground": "#CC7832" }
+      },
+      { "scope": "keyword.other.unit", "settings": { "foreground": "#b5cea8" } },
+      { "scope": "storage.type.function.arrow", "settings": { "foreground": "#A9B7C6" } },
+
+      // ---- functions ----
+      {
+        "scope": ["entity.name.function", "support.function", "support.constant.handlebars"],
+        "settings": { "foreground": "#FFC66D" }
+      },
+      { "scope": "meta.function-call.generic", "settings": { "foreground": "#FFC66D" } },
+
+      // ---- types / classes ----
+      {
+        "scope": ["entity.name.type", "entity.name.class", "support.type", "support.class", "entity.other.inherited-class"],
+        "settings": { "foreground": "#FFC66D" }
+      },
+      {
+        "name": "Primitive / declared types in C#, Java, Groovy",
+        "scope": [
+          "meta.return-type",
+          "storage.type.cs",
+          "storage.type.generic.cs",
+          "storage.type.modifier.cs",
+          "storage.type.variable.cs",
+          "storage.type.annotation.java",
+          "storage.type.generic.java",
+          "storage.type.java",
+          "storage.type.object.array.java",
+          "storage.type.primitive.array.java",
+          "storage.type.primitive.java",
+          "storage.type.token.java",
+          "storage.type.groovy",
+          "storage.type.annotation.groovy",
+          "storage.type.parameters.groovy",
+          "storage.type.generic.groovy",
+          "storage.type.object.array.groovy",
+          "storage.type.primitive.array.groovy",
+          "storage.type.primitive.groovy",
+          "meta.type.cast.expr",
+          "meta.type.new.expr",
+          "support.constant.math",
+          "support.constant.dom",
+          "support.constant.json"
+        ],
+        "settings": { "foreground": "#4EC9B0" }
+      },
+
+      // ---- variables / identifiers ----
+      // plain identifier references stay Darcula's default text colour;
+      // names being declared and dot-accessed properties get the purple
+      // "property" colour
+      {
+        "scope": [
+          "variable",
+          "variable.other",
+          "variable.other.readwrite",
+          "variable.other.constant",
+          "variable.parameter",
+          "variable.other.readwrite.alias",
+          "variable.other.object",
+          "support.variable",
+          "support.variable.property",
+          "support.variable.property.importmeta.js",
+          "meta.definition.variable.name",
+          "entity.name.variable"
+        ],
+        "settings": { "foreground": "#A9B7C6" }
+      },
+      {
+        "scope": [
+          "variable.other.property",
+          "variable.other.object.property",
+          "variable.other.constant.property",
+          "variable.other.enummember",
+          "meta.definition.variable variable.other.constant",
+          "meta.definition.variable variable.other.readwrite",
+          "meta.definition.variable entity.name.function"
+        ],
+        "settings": { "foreground": "#9876AA" }
+      },
+      {
+        "scope": ["support.class.dom", "entity.name.type.module"],
+        "settings": { "foreground": "#A9B7C6" }
+      },
+      {
+        "name": "this / self",
+        "scope": ["variable.language", "variable.language.self", "variable.language.this"],
+        "settings": { "foreground": "#CC7832", "fontStyle": "bold" }
+      },
+
+      // ---- object keys / CSS-ish names ----
+      {
+        "scope": [
+          "meta.object-literal.key",
+          "meta.object-literal.key entity.name.function",
+          "entity.name.label"
+        ],
+        "settings": { "foreground": "#9876AA" }
+      },
+      {
+        "scope": ["support.type.vendored.property-name", "support.type.property-name", "variable.css", "variable.scss", "variable.other.less"],
+        "settings": { "foreground": "#9876AA" }
+      },
+      // JSON keys explicitly (the grammar scopes a key as
+      // string.json support.type.property-name.json; naming the language
+      // suffix makes the rule unambiguous)
+      {
+        "scope": [
+          "support.type.property-name.json",
+          "support.type.property-name.json.comments",
+          "support.type.property-name.json.lines",
+          "punctuation.support.type.property-name.begin.json",
+          "punctuation.support.type.property-name.end.json",
+          "punctuation.support.type.property-name.begin.json.comments",
+          "punctuation.support.type.property-name.end.json.comments"
+        ],
+        "settings": { "foreground": "#9876AA" }
+      },
+
+      // ---- shell / bash ----
+      // variable names in ${...} expansions and in direct assignments
+      {
+        "scope": [
+          "meta.parameter-expansion variable.other.normal.shell",
+          "meta.expression.assignment variable.other.assignment.shell",
+          "meta.expression.assignment.modified variable.other.assignment.shell"
+        ],
+        "settings": { "foreground": "#9876AA" }
+      },
+
+      // ---- HTML / XML / CSS ----
+      { "scope": "entity.name.tag", "settings": { "foreground": "#FFC66D" } },
+      { "scope": "punctuation.definition.tag", "settings": { "foreground": "#FFC66D" } },
+      { "scope": "entity.other.attribute-name", "settings": { "foreground": "#BABABA" } },
+      {
+        "scope": [
+          "entity.name.tag.css",
+          "entity.other.attribute-name.class.css",
+          "entity.other.attribute-name.class.mixin.css",
+          "entity.other.attribute-name.id.css",
+          "entity.other.attribute-name.parent-selector.css",
+          "entity.other.attribute-name.pseudo-class.css",
+          "entity.other.attribute-name.pseudo-element.css",
+          "source.css.less entity.other.attribute-name.id",
+          "entity.other.attribute-name.attribute.scss",
+          "entity.other.attribute-name.scss",
+          "meta.selector"
+        ],
+        "settings": { "foreground": "#d7ba7d" }
+      },
+      {
+        "scope": [
+          "support.constant.property-value",
+          "support.constant.font-name",
+          "support.constant.media-type",
+          "support.constant.media",
+          "constant.other.color.rgb-value",
+          "constant.other.rgb-value",
+          "support.constant.color"
+        ],
+        "settings": { "foreground": "#CE9178" }
+      },
+
+      // ---- markdown ----
+      // headings are the "keywords" of a markdown file: orange + bold
+      {
+        "scope": ["markup.heading", "entity.name.section.markdown"],
+        "settings": { "foreground": "#CC7832", "fontStyle": "bold" }
+      },
+      // the # sigils are punctuation, so they are dimmed like comments
+      { "scope": "punctuation.definition.heading.markdown", "settings": { "foreground": "#808080", "fontStyle": "normal" } },
+
+      // list markers: "-" "*" "1."
+      { "scope": "punctuation.definition.list.begin.markdown", "settings": { "foreground": "#FFC66D" } },
+
+      // literal emphasis stays the identifier colour, the style is kept
+      { "scope": ["markup.bold", "strong"], "settings": { "foreground": "#A9B7C6", "fontStyle": "bold" } },
+      { "scope": ["markup.italic", "emphasis"], "settings": { "foreground": "#A9B7C6", "fontStyle": "italic" } },
+      { "scope": "markup.strikethrough", "settings": { "foreground": "#A9B7C6" } },
+      { "scope": "markup.underline", "settings": { "foreground": "#A9B7C6", "fontStyle": "underline" } },
+
+      // links: the link text / alt text is a name -> purple; the URL is dimmed
+      {
+        "scope": [
+          "string.other.link.title.markdown",
+          "string.other.link.description.markdown",
+          "string.other.link.description.title.markdown",
+          "constant.other.reference.link.markdown",
+          "meta.image.inline.markdown",
+          "meta.image.reference.markdown"
+        ],
+        "settings": { "foreground": "#9876AA" }
+      },
+      {
+        "scope": [
+          "markup.underline.link.markdown",
+          "markup.underline.link.image.markdown",
+          "meta.link.inet.markdown",
+          "meta.link.email.lt-gt.markdown",
+          "meta.link.reference.markdown",
+          "meta.link.reference.def.markdown",
+          "punctuation.definition.link.markdown",
+          "punctuation.definition.metadata.markdown",
+          "punctuation.definition.constant.markdown",
+          "punctuation.separator.key-value.markdown"
+        ],
+        "settings": { "foreground": "#808080" }
+      },
+      {
+        "scope": [
+          "punctuation.definition.link.title.begin.markdown",
+          "punctuation.definition.link.title.end.markdown",
+          "punctuation.definition.link.description.begin.markdown",
+          "punctuation.definition.link.description.end.markdown",
+          "punctuation.definition.constant.begin.markdown",
+          "punctuation.definition.constant.end.markdown"
+        ],
+        "settings": { "foreground": "#A9B7C6" }
+      },
+
+      // code: inline spans and indented blocks use the string colour; the fence
+      // ticks and the language name are dimmed
+      { "scope": ["markup.inline.raw", "markup.raw.block"], "settings": { "foreground": "#6A8759" } },
+      {
+        "scope": ["punctuation.definition.markdown", "fenced_code.block.language", "fenced_code.block.language.attributes"],
+        "settings": { "foreground": "#808080" }
+      },
+
+      // quotes, tables, horizontal rules
+      { "scope": "markup.quote", "settings": { "foreground": "#A9B7C6" } },
+      { "scope": "punctuation.definition.quote.begin.markdown", "settings": { "foreground": "#6A8759" } },
+      {
+        "scope": ["markup.table", "punctuation.definition.table.markdown", "punctuation.separator.table.markdown"],
+        "settings": { "foreground": "#A9B7C6" }
+      },
+      { "scope": "meta.separator.markdown", "settings": { "foreground": "#808080", "fontStyle": "normal" } },
+      // YAML front matter
+      {
+        "scope": ["comment.frontmatter", "punctuation.definition.begin.frontmatter", "punctuation.definition.end.frontmatter"],
+        "settings": { "foreground": "#808080" }
+      },
+      { "scope": "markup.inserted", "settings": { "foreground": "#b5cea8" } },
+      { "scope": "markup.deleted", "settings": { "foreground": "#ce9178" } },
+      { "scope": "markup.changed", "settings": { "foreground": "#A9B7C6" } },
+      { "scope": "meta.diff.header", "settings": { "foreground": "#CC7832" } },
+
+      // ---- doc comments / phpdoc ----
+      {
+        "scope": [
+          "keyword.other.phpdoc.php",
+          "keyword.other.type.php",
+          "storage.type.class.jsdoc",
+          "entity.name.type.instance.jsdoc",
+          "variable.other.jsdoc"
+        ],
+        "settings": { "foreground": "#808080" }
+      },
+
+      // ---- language-specific extras ----
+      {
+        "name": "Python: parameter type annotations",
+        // MagicPython gives the annotation type no scope of its own, so the
+        // whole parameter-list meta scope is coloured and the surrounding
+        // punctuation is put back afterwards
+        "scope": "meta.function.parameters.python",
+        "settings": { "foreground": "#FFC66D" }
+      },
+      {
+        "name": "Python: parameter-list punctuation",
+        "scope": [
+          "punctuation.definition.parameters.begin.python",
+          "punctuation.definition.parameters.end.python",
+          "punctuation.separator.parameters.python",
+          "punctuation.separator.annotation.python"
+        ],
+        "settings": { "foreground": "#A9B7C6" }
+      },
+      {
+        "name": "Python: ALL_CAPS constants / enum members (DbCollection.AIRPORTS)",
+        "scope": ["constant.other.caps.python", "constant.other.allcaps"],
+        "settings": { "foreground": "#9876AA" }
+      },
+      {
+        "name": "Python: magic functions / self",
+        "scope": ["support.function.magic.python", "variable.language.special.self.python", "variable.parameter.function.language.special.self.python"],
+        "settings": { "foreground": "#9876AA" }
+      },
+      { "scope": "meta.structure.dictionary.key.python", "settings": { "foreground": "#9876AA" } },
+      {
+        "name": "Java import / package identifiers",
+        "scope": ["storage.modifier.import.java", "storage.modifier.package.java"],
+        "settings": { "foreground": "#d4d4d4" }
+      },
+      {
+        "name": "PHP embedded tags",
+        "scope": ["punctuation.section.embedded.begin.php", "punctuation.section.embedded.end.php"],
+        "settings": { "foreground": "#CC7832" }
+      },
+      {
+        "name": "Git rebase gutter",
+        "scope": ["support.function.git-rebase", "constant.sha.git-rebase"],
+        "settings": { "foreground": "#9876AA" }
+      },
+
+      // ---- invalid / debug-console tokens ----
+      { "scope": "invalid", "settings": { "foreground": "#f44747" } },
+      { "scope": "token.info-token", "settings": { "foreground": "#6796e6" } },
+      { "scope": "token.warn-token", "settings": { "foreground": "#cd9731" } },
+      { "scope": "token.error-token", "settings": { "foreground": "#f44747" } },
+      { "scope": "token.debug-token", "settings": { "foreground": "#b267e6" } }
+    ]
+  },
+
+  // 3. Semantic highlighting (TS, JS, Java, Python, C# ...). This runs ON TOP
+  //    of the TextMate rules above, so without it some tokens still use the
+  //    base theme's colors. Drop "enabled" if your theme already handles it.
+  "editor.semanticTokenColorCustomizations": {
+    "enabled": true,
+    "rules": {
+      "comment": "#808080",
+      "string": "#6A8759",
+      "number": "#6897BB",
+      "keyword": { "foreground": "#CC7832", "bold": true },
+      "operator": "#A9B7C6",
+      "function": "#FFC66D",
+      "method": "#FFC66D",
+      "class": "#FFC66D",
+      "interface": "#FFC66D",
+      "enum": "#FFC66D",
+      "struct": "#FFC66D",
+      "type": "#FFC66D",
+      "namespace": "#A9B7C6",
+      "variable": "#A9B7C6",
+      "variable.readonly": "#9876AA",
+      "parameter": "#A9B7C6",
+      "property": "#9876AA",
+      "enumMember": "#9876AA",
+      "macro": "#9876AA",
+      "decorator": "#CC7832",
+      "label": "#CC7832"
+    }
+  }
+}
