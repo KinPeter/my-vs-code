@@ -33,12 +33,11 @@ Source material:
 | comment                   | `#808080`        | `comment`, markdown front matter, URLs, `#` heading sigils, fence ticks                                        |
 | string                    | `#6A8759`        | `string`, markdown inline code, blockquote marker, dotenv values                                               |
 | keyword                   | `#CC7832` + bold | `keyword.control`, `storage.type`, `storage.modifier`, `constant.language`, markdown headings, Dockerfile instructions |
-| number                    | `#6897BB`        | `constant.numeric`, escape sequences in dotenv / Dockerfile strings                                           |
-| function / type           | `#FFC66D`        | `entity.name.function`, `support.function`, `entity.name.type`, list markers                                   |
+| number                    | `#6897BB`        | `constant.numeric`, shell option flags (`--host`, `-u`), escape sequences in dotenv / Dockerfile strings     |
+| function / type / command | `#FFC66D`        | `entity.name.function`, `support.function`, `entity.name.type`, `entity.name.command.shell`, list markers     |
 | type (alt)                | `#4EC9B0`        | Java/C# type rules                                                                                             |
-| identifier / punctuation  | `#A9B7C6`        | plain variables, parameters, operators, table pipes, unscoped Dockerfile line text                             |
+| identifier / punctuation  | `#A9B7C6`        | plain variables, parameters, operators, table pipes, unscoped Dockerfile line text, `$` and `${` sigils       |
 | constant / property / key | `#9876AA`        | JSON keys, object keys, dot-accessed properties, declared `const` names, Python `ALL_CAPS`, markdown link text, dotenv keys |
-| option flag               | `#569cd6`        | comes from the base theme (shell `-i` flags) — left alone                                                      |
 
 **House rule:** only orange (`#CC7832`) tokens are bold. Markdown `**bold**` / `*italic*` are
 literal document formatting and intentionally keep their style.
@@ -493,6 +492,15 @@ node -e "const M=require('./matcher');const f=M.readJsonc('/Users/peter/code/my-
   sigil back (see §2, last bullet).
 - `$0`/`$1` (`variable.parameter.positional.shell`) stay gray like other parameters;
   `$?`, `$*`, `$-` (`variable.language.special.shell`) are orange bold like `this`/`self`.
+- Option flags (`--host`, `-u`) → `constant.other.option` `#6897BB`. They were `#79C0FF`
+  through the base theme's generic `constant` rule. The scope has no language suffix
+  (`string.unquoted.argument constant.other.option` is the option's contentName), so this
+  rule cannot be shell-only; the only other grammar using it is the snippet one.
+- Command names (`mongosh`, `sleep`, `mongoimport`) → `entity.name.command.shell` `#FFC66D`,
+  matching `support.function.builtin.shell` (`echo`). Without it they were `#FFA657`.
+  Quirk: a flag at the **start of a continuation line** (`    --db central-v2`) is scoped as
+  a command name, so it becomes yellow, not blue — the grammar gives it no option scope, so
+  it cannot be separated from a real command.
 - Still unscoped: the `${` and `}` of an expansion outside a string fall back to the base
   theme's `#BBBEBF`. A rule for `punctuation.definition.variable.shell` plus
   `punctuation.section.bracket.curly.variable.begin/end.shell` → `#A9B7C6` would fix that;
@@ -574,7 +582,7 @@ node -e "const M=require('./matcher');const f=M.readJsonc('/Users/peter/code/my-
 
 ## 7. Current state
 
-- `git status` → `M themes/dracula-token-and-git-only.jsonc` (80 textMateRules, 21 semantic
+- `git status` → `M themes/dracula-token-and-git-only.jsonc` (82 textMateRules, 21 semantic
   rules), no commits made by the agent.
 - VS Code 1.145.2, **no extensions installed**, no `workbench.colorTheme` set → base theme is
   Dark 2026.
