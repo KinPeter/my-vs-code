@@ -191,15 +191,19 @@
       },
 
       // ---- shell / bash ----
-      // variable names in ${...} expansions and in direct assignments
+      // variable names: bare $VAR, ${VAR} expansions, and names being assigned
+      { "scope": "variable.other.normal.shell", "settings": { "foreground": "#9876AA" } },
       {
         "scope": [
-          "meta.parameter-expansion variable.other.normal.shell",
           "meta.expression.assignment variable.other.assignment.shell",
           "meta.expression.assignment.modified variable.other.assignment.shell"
         ],
         "settings": { "foreground": "#9876AA" }
       },
+      // the sigil and the name share the same innermost scope, so the `$` of a
+      // bare $VAR is put back to the text color with a rule whose parent scope
+      // (punctuation.definition.variable.shell) only the sigil has
+      { "scope": "punctuation.definition.variable.shell variable.other.normal.shell", "settings": { "foreground": "#A9B7C6" } },
 
       // ---- dotenv (.env, .env.local, .flaskenv) ----
       // VS Code ships the source.dotenv grammar; the key is a name being

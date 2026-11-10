@@ -85,6 +85,11 @@ bundle). The algorithm is:
   (`variable.parameter.function.language.python`, `entity.name.section.markdown`).
 - **Scope suffixes matter**: prefer language-suffixed scopes (`…python`, `…markdown`) so a
   rule cannot leak into other languages.
+- **A grammar capture can put two scopes on one token** (`"punctuation.definition.variable.shell
+  variable.other.normal.shell"`), and both become entries in the scope stack. A rule whose
+  *parent* scope is one of them then matches only that token:
+  `"punctuation.definition.variable.shell variable.other.normal.shell"` hits the `$` of a bare
+  `$VAR` but not the name, which is how the sigil and the name get different colors.
 - **There is no `[python]: { … }` wrapper for token colors.** Language-specific key blocks
   apply to editor settings, not to `tokenColorCustomizations`.
 - **`fontStyle: "normal"` clears bold** inherited from an outer scope (e.g. the `#` in a
@@ -480,11 +485,18 @@ node -e "const M=require('./matcher');const f=M.readJsonc('/Users/peter/code/my-
 
 ### Shell
 
-- Only these scopes are purple: `meta.parameter-expansion variable.other.normal.shell`
-  (`${BASH_SOURCE}`, `${PS1}`, …) and `meta.expression.assignment(.modified)
-variable.other.assignment.shell`.
-- Known limitation: bare `$VAR` (no braces) is not inside `meta.parameter-expansion`, so it
-  stays gray. Adding `"variable.other.normal.shell"` would cover it but also colors the `$`.
+- Variable **names** are purple `#9876AA` everywhere: bare `$VAR`, `${VAR}` expansions and
+  names being assigned (`meta.expression.assignment(.modified) variable.other.assignment.shell`).
+- The `$` sigil stays gray `#A9B7C6`. `variable.other.normal.shell` alone would colour the
+  sigil too, because the grammar gives `$` and the name the same innermost scope; the
+  restore rule `punctuation.definition.variable.shell variable.other.normal.shell` puts the
+  sigil back (see §2, last bullet).
+- `$0`/`$1` (`variable.parameter.positional.shell`) stay gray like other parameters;
+  `$?`, `$*`, `$-` (`variable.language.special.shell`) are orange bold like `this`/`self`.
+- Still unscoped: the `${` and `}` of an expansion outside a string fall back to the base
+  theme's `#BBBEBF`. A rule for `punctuation.definition.variable.shell` plus
+  `punctuation.section.bracket.curly.variable.begin/end.shell` → `#A9B7C6` would fix that;
+  not added.
 
 ### Dotenv
 
@@ -562,11 +574,11 @@ variable.other.assignment.shell`.
 
 ## 7. Current state
 
-- `git status` → `M themes/dracula-token-and-git-only.jsonc` (78 textMateRules, 21 semantic
+- `git status` → `M themes/dracula-token-and-git-only.jsonc` (80 textMateRules, 21 semantic
   rules), no commits made by the agent.
 - VS Code 1.145.2, **no extensions installed**, no `workbench.colorTheme` set → base theme is
   Dark 2026.
 - Open ideas the user has not decided on yet:
-  - bare `$VAR` in shell → purple?
+  - shell `${` / `}` sigils → `#A9B7C6` (variant "C", tested but not applied)
   - setext headings in Markdown (grammar limitation)
   - `keyword - keyword.operator` rule is inert and could be deleted.
