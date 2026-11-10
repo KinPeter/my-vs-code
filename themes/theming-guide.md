@@ -32,11 +32,11 @@ Source material:
 | ------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------- |
 | comment                   | `#808080`        | `comment`, markdown front matter, URLs, `#` heading sigils, fence ticks                                        |
 | string                    | `#6A8759`        | `string`, markdown inline code, blockquote marker, dotenv values                                               |
-| keyword                   | `#CC7832` + bold | `keyword.control`, `storage.type`, `storage.modifier`, `constant.language`, markdown headings                  |
-| number                    | `#6897BB`        | `constant.numeric`                                                                                             |
+| keyword                   | `#CC7832` + bold | `keyword.control`, `storage.type`, `storage.modifier`, `constant.language`, markdown headings, Dockerfile instructions |
+| number                    | `#6897BB`        | `constant.numeric`, escape sequences in dotenv / Dockerfile strings                                           |
 | function / type           | `#FFC66D`        | `entity.name.function`, `support.function`, `entity.name.type`, list markers                                   |
 | type (alt)                | `#4EC9B0`        | Java/C# type rules                                                                                             |
-| identifier / punctuation  | `#A9B7C6`        | plain variables, parameters, operators, table pipes                                                            |
+| identifier / punctuation  | `#A9B7C6`        | plain variables, parameters, operators, table pipes, unscoped Dockerfile line text                             |
 | constant / property / key | `#9876AA`        | JSON keys, object keys, dot-accessed properties, declared `const` names, Python `ALL_CAPS`, markdown link text, dotenv keys |
 | option flag               | `#569cd6`        | comes from the base theme (shell `-i` flags) — left alone                                                      |
 
@@ -119,6 +119,7 @@ Grammars live under:
 | JS          | `javascript/syntaxes/JavaScript.tmLanguage.json`                       | `source.js`          |
 | Shell       | `shellscript/syntaxes/shell-unix-bash.tmLanguage.json`                 | `source.shell`       |
 | Dotenv      | `dotenv/syntaxes/dotenv.tmLanguage.json`                               | `source.dotenv`      |
+| Dockerfile  | `docker/syntaxes/docker.tmLanguage.json`                               | `source.dockerfile`  |
 | JSON        | `json/syntaxes/json.tmLanguage.json`                                   | `source.json`        |
 | Markdown    | `markdown-basics/syntaxes/markdown.tmLanguage.json`                    | `text.html.markdown` |
 | HTML        | `html/syntaxes/html.tmLanguage.json`                                   | `text.html.basic`    |
@@ -505,6 +506,22 @@ variable.other.assignment.shell`.
 - Dotenv has no semantic tokens, so nothing in the semantic block is needed.
 - Known limitation: the grammar only scopes `${VAR}` interpolation, not bare `$VAR`.
 
+### Dockerfile
+
+- Built-in `docker` grammar (`source.dockerfile`), covering `Dockerfile`,
+  `Containerfile`, `Dockerfile.*`, `.dockerfile`. It is extremely sparse: instructions,
+  quoted strings, line-start comments and escapes are the only scoped things.
+- Instructions (`FROM`, `RUN`, `COPY`, `ENV`, `EXPOSE`, `AS`, …) →
+  `keyword.other.special-method.dockerfile` `#CC7832` bold, instead of base-theme red
+  `#FF7B72`. `ONBUILD` is `keyword.control.dockerfile` and is already orange through the
+  general `keyword.control` rule.
+- Everything unscoped (paths, args, ports, inline comments) → `source.dockerfile`
+  `#A9B7C6`. This is the "color the enclosing scope, inner rules win" trick: strings,
+  comments and instructions still resolve to green/gray/orange.
+- `\n`-style escapes inside strings → `constant.character.escaped.dockerfile` `#6897BB`.
+- Known limitations: only line-start comments are scoped, so `RUN foo # comment` colors
+  the comment as text; ports and numbers (`EXPOSE 5500`) have no scope at all.
+
 ### Python
 
 - Annotation types have **no dedicated scope**, so the whole `meta.function.parameters.python`
@@ -545,7 +562,7 @@ variable.other.assignment.shell`.
 
 ## 7. Current state
 
-- `git status` → `M themes/dracula-token-and-git-only.jsonc` (75 textMateRules, 21 semantic
+- `git status` → `M themes/dracula-token-and-git-only.jsonc` (78 textMateRules, 21 semantic
   rules), no commits made by the agent.
 - VS Code 1.145.2, **no extensions installed**, no `workbench.colorTheme` set → base theme is
   Dark 2026.

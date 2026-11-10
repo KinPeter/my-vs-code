@@ -214,6 +214,14 @@
       },
       { "scope": "constant.character.escape.dotenv", "settings": { "foreground": "#6897BB" } },
 
+      // ---- dockerfile / Containerfile ----
+      // the grammar only scopes the instruction, strings and comments, so the
+      // remaining text (paths, args, ports, inline comments) is carried by the
+      // source scope; strings, comments and instructions still win over it
+      { "scope": "keyword.other.special-method.dockerfile", "settings": { "foreground": "#CC7832", "fontStyle": "bold" } },
+      { "scope": "source.dockerfile", "settings": { "foreground": "#A9B7C6" } },
+      { "scope": "constant.character.escaped.dockerfile", "settings": { "foreground": "#6897BB" } },
+
       // ---- HTML / XML / CSS ----
       { "scope": "entity.name.tag", "settings": { "foreground": "#FFC66D" } },
       { "scope": "punctuation.definition.tag", "settings": { "foreground": "#FFC66D" } },
