@@ -201,6 +201,19 @@
         "settings": { "foreground": "#9876AA" }
       },
 
+      // ---- dotenv (.env, .env.local, .flaskenv) ----
+      // VS Code ships the source.dotenv grammar; the key is a name being
+      // declared (same role as a JSON key), the value is always a string,
+      // quoted or not, and ${NAME} is a reference to another variable
+      { "scope": "variable.key.dotenv", "settings": { "foreground": "#9876AA" } },
+      { "scope": "property.value.dotenv", "settings": { "foreground": "#6A8759" } },
+      { "scope": "keyword.key.export.dotenv", "settings": { "foreground": "#CC7832", "fontStyle": "bold" } },
+      {
+        "scope": ["keyword.interpolation.begin.dotenv", "keyword.interpolation.end.dotenv"],
+        "settings": { "foreground": "#A9B7C6" }
+      },
+      { "scope": "constant.character.escape.dotenv", "settings": { "foreground": "#6897BB" } },
+
       // ---- HTML / XML / CSS ----
       { "scope": "entity.name.tag", "settings": { "foreground": "#FFC66D" } },
       { "scope": "punctuation.definition.tag", "settings": { "foreground": "#FFC66D" } },

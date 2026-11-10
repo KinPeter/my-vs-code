@@ -31,13 +31,13 @@ Source material:
 | Role                      | Hex              | Typical scopes                                                                                                 |
 | ------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------- |
 | comment                   | `#808080`        | `comment`, markdown front matter, URLs, `#` heading sigils, fence ticks                                        |
-| string                    | `#6A8759`        | `string`, markdown inline code, blockquote marker                                                              |
+| string                    | `#6A8759`        | `string`, markdown inline code, blockquote marker, dotenv values                                               |
 | keyword                   | `#CC7832` + bold | `keyword.control`, `storage.type`, `storage.modifier`, `constant.language`, markdown headings                  |
 | number                    | `#6897BB`        | `constant.numeric`                                                                                             |
 | function / type           | `#FFC66D`        | `entity.name.function`, `support.function`, `entity.name.type`, list markers                                   |
 | type (alt)                | `#4EC9B0`        | Java/C# type rules                                                                                             |
 | identifier / punctuation  | `#A9B7C6`        | plain variables, parameters, operators, table pipes                                                            |
-| constant / property / key | `#9876AA`        | JSON keys, object keys, dot-accessed properties, declared `const` names, Python `ALL_CAPS`, markdown link text |
+| constant / property / key | `#9876AA`        | JSON keys, object keys, dot-accessed properties, declared `const` names, Python `ALL_CAPS`, markdown link text, dotenv keys |
 | option flag               | `#569cd6`        | comes from the base theme (shell `-i` flags) — left alone                                                      |
 
 **House rule:** only orange (`#CC7832`) tokens are bold. Markdown `**bold**` / `*italic*` are
@@ -118,6 +118,7 @@ Grammars live under:
 | Python      | `python/syntaxes/MagicPython.tmLanguage.json`                          | `source.python`      |
 | JS          | `javascript/syntaxes/JavaScript.tmLanguage.json`                       | `source.js`          |
 | Shell       | `shellscript/syntaxes/shell-unix-bash.tmLanguage.json`                 | `source.shell`       |
+| Dotenv      | `dotenv/syntaxes/dotenv.tmLanguage.json`                               | `source.dotenv`      |
 | JSON        | `json/syntaxes/json.tmLanguage.json`                                   | `source.json`        |
 | Markdown    | `markdown-basics/syntaxes/markdown.tmLanguage.json`                    | `text.html.markdown` |
 | HTML        | `html/syntaxes/html.tmLanguage.json`                                   | `text.html.basic`    |
@@ -484,6 +485,26 @@ variable.other.assignment.shell`.
 - Known limitation: bare `$VAR` (no braces) is not inside `meta.parameter-expansion`, so it
   stays gray. Adding `"variable.other.normal.shell"` would cover it but also colors the `$`.
 
+### Dotenv
+
+- VS Code ships the `dotenv` grammar built in (`source.dotenv`), covering `.env`,
+  `.env.local`, `.env.production`, `.flaskenv`. No base theme has any dotenv rule, so
+  every dotenv token used to fall back either to a general rule or to base-theme red.
+- Keys are "a name being declared" → `variable.key.dotenv` `#9876AA`, the same role as
+  JSON keys and object keys.
+- Every value is a string, quoted or not, so `property.value.dotenv` is the string green
+  `#6A8759`; quoted values were already green via the general `string` rule.
+- `export` → `keyword.key.export.dotenv` `#CC7832` bold (keyword role).
+- `${` / `}` → `keyword.interpolation.begin/end.dotenv` `#A9B7C6`, mirroring the existing
+  JS/TS template-expression rule. The name inside (`variable.interpolation.dotenv`) stays
+  gray `#A9B7C6` through the general `variable` rule: it is a reference, not a declaration.
+- `\n`-style escapes inside quoted values → `constant.character.escape.dotenv` `#6897BB`
+  (constant role), instead of the base theme's `#FF7B72`.
+- `=` needs no rule: `keyword.operator.assignment.dotenv` is already covered by
+  `keyword.operator`.
+- Dotenv has no semantic tokens, so nothing in the semantic block is needed.
+- Known limitation: the grammar only scopes `${VAR}` interpolation, not bare `$VAR`.
+
 ### Python
 
 - Annotation types have **no dedicated scope**, so the whole `meta.function.parameters.python`
@@ -524,7 +545,7 @@ variable.other.assignment.shell`.
 
 ## 7. Current state
 
-- `git status` → `M themes/dracula-token-and-git-only.jsonc` (70 textMateRules, 21 semantic
+- `git status` → `M themes/dracula-token-and-git-only.jsonc` (75 textMateRules, 21 semantic
   rules), no commits made by the agent.
 - VS Code 1.145.2, **no extensions installed**, no `workbench.colorTheme` set → base theme is
   Dark 2026.
